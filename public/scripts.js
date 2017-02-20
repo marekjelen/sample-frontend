@@ -14,26 +14,17 @@ var countdown = function() {
 };
 
 function initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), mapConfig);
-    $.get('/data', function(data){
-        var markers = [];
-        $.each(data, function(id, park){
-            var infowindow = new google.maps.InfoWindow({
-                content: park['name']
-            });
-            var marker = new google.maps.Marker({
-                position: {lat: park['pos'][0], lng: park['pos'][1]},
-                map: map,
-                title: park['name']
-            });
-            marker.addListener('click', function() {
-                infowindow.open(map, marker);
-            });
-            markers.push(marker);
-        });
-        var markerCluster = new MarkerClusterer(map, markers, {
-            imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
-        });
+    var map = L.map('map').setView([mapConfig['center']['lat'], mapConfig['center']['lng']], mapConfig['zoom']);
 
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    $.get('/data', function(data){
+        var markers = L.markerClusterGroup();
+        $.each(data, function(id, park){
+            markers.addLayer(L.marker(park['pos']).addTo(map).bindPopup(park['name']));
+        });
+        map.addLayer(markers);
     });
 }

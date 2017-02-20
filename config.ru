@@ -10,7 +10,6 @@ class Application < Sinatra::Base
   before do
     ENV['BACKEND'] ||= 'backend'
     ENV['BACKEND_PORT'] = '8080'
-    ENV['MAPS_KEY'] = 'AIzaSyCjC3keHIctJOPQd0xYppwv7YcLaymsa7A'
   end
 
   get '/' do
