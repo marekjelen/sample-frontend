@@ -1,0 +1,12 @@
+body {
+    text-align: center;
+}
+
+h1 {
+    font-size: 100px;
+}
+
+.box {
+    width: 600px;
+    margin: auto;
+}
