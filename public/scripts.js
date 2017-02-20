@@ -23,7 +23,7 @@ function initMap() {
     $.get('/data', function(data){
         var markers = L.markerClusterGroup();
         $.each(data, function(id, park){
-            markers.addLayer(L.marker(park['pos']).addTo(map).bindPopup(park['name']));
+            markers.addLayer(L.marker(park['pos']).bindPopup(park['name']));
         });
         map.addLayer(markers);
     });
