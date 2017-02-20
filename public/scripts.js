@@ -16,6 +16,7 @@ var countdown = function() {
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), mapConfig);
     $.get('/data', function(data){
+        var markers = [];
         $.each(data, function(id, park){
             var infowindow = new google.maps.InfoWindow({
                 content: park['name']
@@ -28,6 +29,11 @@ function initMap() {
             marker.addListener('click', function() {
                 infowindow.open(map, marker);
             });
+            markers.push(marker);
         });
+        var markerCluster = new MarkerClusterer(map, markers, {
+            imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+        });
+
     });
 }
