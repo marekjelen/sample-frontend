@@ -1,0 +1,8 @@
+<div id="map"></div>
+<script>
+    var mapConfig = {
+        center: {lat: <%= @config['lat'] %>, lng: <%= @config['lng'] %>},
+        zoom: <%= @config['zoom'] %>
+    };
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['MAPS_KEY'] %>&callback=initMap" async defer></script>

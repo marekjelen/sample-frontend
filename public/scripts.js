@@ -1,7 +1,5 @@
 $(function(){
     countdown();
-    loadCookies();
-    stickySessions();
 });
 
 var countdown = function() {
@@ -15,49 +13,21 @@ var countdown = function() {
     }
 };
 
-var stickySessions = function() {
-    var button = $('#sticky');
-    if(cookies["sticky"] == "false") {
-        button.html('Enable sticky session');
-        button.click(function(){
-            deleteCookie("sticky");
-            $(this).attr('disabled', 'true');
+function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), mapConfig);
+    $.get('/data', function(data){
+        $.each(data, function(id, park){
+            var infowindow = new google.maps.InfoWindow({
+                content: park['name']
+            });
+            var marker = new google.maps.Marker({
+                position: {lat: park['pos'][0], lng: park['pos'][1]},
+                map: map,
+                title: park['name']
+            });
+            marker.addListener('click', function() {
+                infowindow.open(map, marker);
+            });
         });
-        deleteCookies();
-    } else {
-        button.html('Disable sticky session');
-        button.click(function(){
-            setCookie("sticky", "false");
-            $(this).attr('disabled', 'true');
-        })
-    }
-};
-
-var cookies = {};
-var myCookies = ["sticky"];
-
-var loadCookies = function(){
-    if(document.cookie == "") return;
-    $.each(decodeURIComponent(document.cookie).split(";"), function(key, value) {
-        var v = value.split("=", 2);
-        if(v[0].charAt(0) == " ") v[0] = v[0].substr(1);
-        cookies[v[0]] = v[1];
     });
-    console.log(cookies);
-};
-
-var setCookie = function (name, value) {
-    document.cookie = name + "=" + value + ";";
-};
-
-var deleteCookie = function(name) {
-    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-};
-
-var deleteCookies = function() {
-    $.each(cookies, function(name) {
-        if(myCookies.indexOf(name) == -1) {
-            deleteCookie(name);
-        }
-    });
-};
+}

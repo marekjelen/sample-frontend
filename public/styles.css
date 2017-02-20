@@ -1,5 +1,8 @@
-body {
+html,body {
     text-align: center;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 h1 {
@@ -9,4 +12,8 @@ h1 {
 .box {
     width: 600px;
     margin: auto;
+}
+
+#map {
+    height: 100%;
 }
